@@ -1,5 +1,7 @@
 # Film Gallery Vue 3 Project
 
+**Film Gallery** is a Vue 3 project that displays movie data from TMDb’s API and lets users manage a simple watchlist.
+
 ## Setup Instructions
 
 1. Clone the repository:
