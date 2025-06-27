@@ -60,8 +60,8 @@ body {
   padding: 0;
   width: 100%;
   font-family: Avenir, Helvetica, Arial, sans-serif;
-  background-color: #fff5e1; /* soft popcorn butter */
-  color: #5c2a2a; /* dark reddish-brown for text */
+  background-color: #fff5e1;
+  color: #5c2a2a;
   overflow-x: hidden;
 }
 
@@ -74,8 +74,8 @@ body {
 .app-header,
 .app-footer {
   width: 100%;
-  background-color: #D94F4F; /* faded popcorn red */
-  border-bottom: 3px solid #FFF; /* crisp white border */
+  background-color: #D94F4F;
+  border-bottom: 3px solid #FFF;
 }
 
 .app-footer {
@@ -87,7 +87,6 @@ body {
   flex-grow: 1;
 }
 
-/* Shared layout wrapper */
 .full-width-content {
   max-width: 1200px;
   margin: 0 auto;
@@ -95,7 +94,6 @@ body {
   box-sizing: border-box;
 }
 
-/* Header styles */
 .header-content {
   display: flex;
   flex-direction: column;
@@ -106,9 +104,9 @@ body {
   margin: 0;
   font-weight: 900;
   font-size: 2.8rem;
-  color: #fff; /* crisp white */
+  color: #fff;
   text-align: center;
-  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.6); /* subtle contrast */
+  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.6);
 }
 
 .nav-links {
@@ -142,7 +140,6 @@ body {
   border-color: #D94F4F;
 }
 
-/* Footer styles */
 .app-footer p {
   margin: 0;
   font-size: 0.9rem;
