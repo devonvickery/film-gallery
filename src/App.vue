@@ -28,6 +28,12 @@
           >
             Top Rated
           </button>
+          <button
+            :class="[{ active: category === 'watchlist' }, 'watchlist-btn']"
+            @click="category = 'watchlist'"
+          >
+            Watchlist
+          </button>
         </nav>
       </div>
     </header>
@@ -138,6 +144,24 @@ body {
   background-color: #D94F4F;
   color: #fff;
   border-color: #D94F4F;
+}
+
+.nav-links button.watchlist-btn {
+  background-color: #f6edc9;
+  border-color: #d9c56a;     
+  color: #5c2a2a;         
+}
+
+.nav-links button.watchlist-btn:hover {
+  background-color: #f9e79f;
+  border-color: #bfae45;
+  color: #3e1d1d;
+}
+
+.nav-links button.watchlist-btn.active {
+  background-color: #f9e79f;
+  border-color: #a38c36;
+  color: #2c130f;
 }
 
 .app-footer p {

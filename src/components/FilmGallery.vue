@@ -8,6 +8,9 @@
     <div v-else-if="error" class="error">{{ error }}</div>
 
     <!-- Movie grid -->
+    <div v-if="props.category === 'watchlist' && movies.length === 0" class="empty-message">
+        Nothing here ...yet!
+    </div>
     <div class="movie-grid" v-else>
       <div v-for="movie in movies" :key="movie.id" class="movie-card">
         <a
@@ -24,6 +27,12 @@
           <h2 class="movie-title">{{ movie.title }}</h2>
           <p class="movie-date">{{ movie.release_date }}</p>
         </a>
+        <button
+          @click.prevent="toggleWatchlist(movie)"
+          class="watchlist-btn"
+        >
+          {{ watchlistStore.isInWatchlist(movie.id) ? 'Remove from Watchlist' : 'Add to Watchlist' }}
+        </button>
       </div>
     </div>
 
@@ -31,11 +40,14 @@
     <div v-if="!loading && currentPage < totalPages" class="load-more">
       <button @click="loadMoreMovies">Load More</button>
     </div>
+
+    
   </div>
 </template>
 
 <script setup>
 import { ref, watch, onMounted, computed } from 'vue'
+import { useWatchlistStore } from '../stores/watchlist'
 
 const props = defineProps({
   category: {
@@ -44,6 +56,7 @@ const props = defineProps({
   }
 })
 
+const watchlistStore = useWatchlistStore()
 const movies = ref([])
 const loading = ref(true)
 const error = ref(null)
@@ -60,18 +73,25 @@ const categoryTitleMap = {
   popular: 'Popular Movies',
   now_playing: 'Now Playing',
   upcoming: 'Upcoming Movies',
-  top_rated: 'Top Rated Movies'
+  top_rated: 'Top Rated Movies',
+  watchlist: 'My Watchlist'
 }
 
 const categoryTitle = computed(() => categoryTitleMap[props.category] || 'Movies')
 
 async function fetchMovies(page = 1, append = false) {
+  if (props.category === 'watchlist') {
+    movies.value = watchlistStore.watchlist
+    loading.value = false
+    totalPages.value = 1
+    return
+  }
   loading.value = true
   error.value = null
   try {
     const apiUrl = `https://api.themoviedb.org/3/movie/${props.category}?api_key=${apiKey}&language=en-US&page=${page}`
     const res = await fetch(apiUrl)
-    if (!res.ok) throw new Error('Failed to fetch movies')
+    if (!res.ok) throw new Error('Failed to fetch movies :(')
     const data = await res.json()
 
     if (append) {
@@ -92,6 +112,20 @@ function loadMoreMovies() {
   if (currentPage.value < totalPages.value) {
     currentPage.value++
     fetchMovies(currentPage.value, true)
+  }
+}
+
+function toggleWatchlist(movie) {
+  if (watchlistStore.isInWatchlist(movie.id)) {
+    watchlistStore.removeMovie(movie.id)
+    if (props.category === 'watchlist') {
+        movies.value = movies.value.filter(m => m.id !== movie.id)
+    }
+  } else {
+    watchlistStore.addMovie(movie)
+    if (props.category === 'watchlist') {
+        movies.value = [...movies.value, movie]
+    }
   }
 }
 
@@ -173,7 +207,7 @@ onMounted(() => {
   color: #D94F4F;
   display: flex;
   flex-direction: column;
-  min-height: 350px; 
+  min-height: 350px;
 }
 
 .movie-card:hover {
@@ -234,6 +268,31 @@ onMounted(() => {
 }
 
 .load-more button:hover {
+  background-color: #9B2D2D;
+}
+
+.watchlist-btn {
+  margin-top: 0.75rem;
+  background-color: #D94F4F;
+  color: #fff8e1;
+  border: none;
+  padding: 0.5rem 0.75rem;
+  border-radius: 0.25rem;
+  cursor: pointer;
+  font-weight: 600;
+  transition: background-color 0.2s;
+  width: 100%;
+}
+
+.empty-message {
+  text-align: center;
+  font-size: 1.0rem;
+  font-weight: 600;
+  color: #D94F4F;
+  margin-top: 2rem;
+}
+
+.watchlist-btn:hover {
   background-color: #9B2D2D;
 }
 </style>
