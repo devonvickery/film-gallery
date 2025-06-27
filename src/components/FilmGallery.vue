@@ -83,6 +83,7 @@ async function fetchMovies(page = 1, append = false) {
   if (props.category === 'watchlist') {
     movies.value = watchlistStore.watchlist
     loading.value = false
+    error.value = null;
     totalPages.value = 1
     return
   }
