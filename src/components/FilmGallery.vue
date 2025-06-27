@@ -9,11 +9,13 @@
     
     <!-- Movie grid -->
     <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4" v-else>
-      <div v-for="movie in movies" :key="movie.id" class="border rounded shadow p-2">
+      <div v-for="movie in movies" :key="movie.id" class="border rounded shadow p-2 hover:shadow-lg transition">
+       <a :href="`https://www.themoviedb.org/movie/${movie.id}`" target="_blank" rel="noopener noreferrer" class="block">
         <!-- Poster -->
         <img :src="getImageUrl(movie.poster_path)" :alt="movie.title" class="w-full h-auto mb-2" />
         <!-- Title -->
         <h2 class="text-lg font-semibold">{{ movie.title }}</h2>
+       </a>
         <!-- Release Date -->
         <p class="text-sm">{{ movie.release_date }}</p>
       </div>
